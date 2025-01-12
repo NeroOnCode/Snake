@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContentLeft from "../components/Content-left.astro";
+import ContentRightGIF from "../components/Content-rightGIF.astro";
+import Tutorial from "../components/Tutorial.astro";
+import Game from "../components/Game.astro";
+---
+
+<Layout>
+  <ContentLeft
+    title="REVIVIENDO UN CLASICO"
+    subtitle="SNAKE AHORA EN LA WEB"
+    text="Presentamos de la manera mas fiel el legendario juego Snake, desarrollado desde cero utilizando HTML, CSS y JS. Este proyecto combina la nostalgia, ademas de ser un homenaje a un clasico de los videojuegos retro. Esta idea nacio gracias a querer demostrar como las tecnologias modernas pueden dar vida a los clasicos."
+  />
+  <div id="introduccion"></div>
+  <ContentRightGIF
+    title="HISTORIA DEL PRIMER SNAKE"
+    subtitle="DESCUBRA EL POPULAR CLASICO"
+    text=`La historia de Snake se remonta a los años 70, cuando apareció por primera vez en una máquina recreativa llamada Blockade (1976), desarrollada por la empresa Gremlin. En este juego, los jugadores controlaban una línea que crecía al recoger objetos, y debían evitar chocar contra sí mismos o los bordes.
+
+El concepto se popularizó en los años 80 con múltiples versiones, como Nibbler y Tron: Light Cycles. Sin embargo, el momento más icónico llegó en 1997, cuando Nokia incluyó su propia versión de Snake en el modelo Nokia 6110, convirtiéndose en un fenómeno global. Este juego, preinstalado en millones de teléfonos, marcó a una generación y fue uno de los primeros videojuegos móviles.
+
+Desde entonces, Snake ha sido adaptado innumerables veces en diferentes plataformas, evolucionando con nuevos gráficos y mecánicas, pero siempre conservando su esencia clásica: una serpiente que crece mientras intenta sobrevivir en un espacio limitado.`
+  />
+
+  <div id="curiosidades"></div>
+  <ContentLeft
+    title="CURIOSIDADES DE SNAKE"
+    subtitle="¿SABIAS QUE?"
+    text=`1. El primer juego con la mecánica de Snake, Blockade (1976), no llevaba ese nombre. La idea de una "serpiente" creciendo se añadió en versiones posteriores.
+    
+    2. Snake debutó en los teléfonos Nokia en 1997 con el modelo Nokia 6110. Fue uno de los primeros videojuegos móviles y venía preinstalado en más de 400 millones de teléfonos.
+    
+    3. Snake no tenía gráficos avanzados ni sonido en las primeras versiones, pero su jugabilidad adictiva lo convirtió en un fenómeno cultural.
+    
+    4. En las versiones originales, la puntuación máxima era finita, ya que la serpiente llenaba toda la pantalla y no quedaban más movimientos posibles. ¡En el Nokia 6110, el máximo era 256 puntos!
+    
+    5. Existen más de 300 versiones diferentes de Snake en distintas plataformas, desde consolas antiguas hasta teléfonos inteligentes.`
+  />
+
+  <div id="tutorial"></div>
+  <Tutorial />
+
+  <Game />
+</Layout>

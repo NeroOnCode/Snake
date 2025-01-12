@@ -1,0 +1,182 @@
+<canvas id="gameCanvas"></canvas>
+<div
+  id="scoreContainer"
+  style="font-family: Arial, sans-serif; font-size: 20px; color: white; margin: 10px;"
+>
+  <p id="scoreText" class="inactive text-center">Score: 0</p>
+</div>
+<style>
+  canvas {
+    background-color: black;
+    display: block;
+    margin: 20px auto;
+    border: 1px solid white;
+  }
+  p {
+    font-family: "Press Start 2P", serif;
+  }
+</style>
+
+<script is:inline>
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const scoreText = document.getElementById("scoreText");
+
+  canvas.width = 400;
+  canvas.height = 400;
+  const tileSize = 20;
+  let snake = [{ x: 200, y: 200 }];
+  let direction = { x: 1, y: 0 };
+  let food = spawnFood();
+  let score = 0;
+  let gameRunning = false;
+  let gameStarted = false;
+
+  function spawnFood() {
+    let foodPosition;
+    let validPosition = false;
+
+    while (!validPosition) {
+      foodPosition = {
+        x: Math.floor(Math.random() * (canvas.width / tileSize)) * tileSize,
+        y: Math.floor(Math.random() * (canvas.height / tileSize)) * tileSize,
+      };
+      validPosition = !snake.some(
+        (segment) =>
+          segment.x === foodPosition.x && segment.y === foodPosition.y
+      );
+    }
+
+    return foodPosition;
+  }
+
+  function draw() {
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    if (!gameStarted) {
+      ctx.fillStyle = "white";
+      ctx.font = "14px 'Press Start 2P', Arial";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        "Presiona R para iniciar",
+        canvas.width / 2,
+        canvas.height / 2
+      );
+      return;
+    }
+
+    ctx.fillStyle = "lime";
+    snake.forEach((segment) => {
+      ctx.fillRect(segment.x, segment.y, tileSize, tileSize);
+    });
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(food.x, food.y, tileSize, tileSize);
+
+    if (!gameRunning) {
+      ctx.fillStyle = "white";
+      ctx.font = "20px 'Press Start 2P', Arial";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        "¡Juego terminado!",
+        canvas.width / 2,
+        canvas.height / 2 - 20
+      );
+      ctx.font = "13px 'Press Start 2P', Arial";
+      ctx.fillText(
+        "Pulsa R para reiniciar",
+        canvas.width / 2,
+        canvas.height / 2 + 20
+      );
+    }
+  }
+
+  function moveSnake() {
+    if (!gameRunning) return;
+
+    const head = {
+      x: snake[0].x + direction.x * tileSize,
+      y: snake[0].y + direction.y * tileSize,
+    };
+
+    if (
+      head.x < 0 ||
+      head.y < 0 ||
+      head.x >= canvas.width ||
+      head.y >= canvas.height ||
+      snake.some((segment) => segment.x === head.x && segment.y === head.y)
+    ) {
+      gameRunning = false;
+      return;
+    }
+
+    if (head.x === food.x && head.y === food.y) {
+      score++;
+      scoreText.textContent = `Score: ${score}`;
+      food = spawnFood();
+    } else {
+      snake.pop();
+    }
+
+    snake.unshift(head);
+  }
+
+  let directionChanged = false;
+
+  document.addEventListener("keydown", (e) => {
+    const key = e.key.toLowerCase();
+
+    if (!gameRunning && key === "r") {
+      // Inicializar juego
+      gameStarted = true;
+      gameRunning = true;
+      snake = [{ x: 200, y: 200 }];
+      direction = { x: 1, y: 0 };
+      score = 0;
+      food = spawnFood();
+      scoreText.textContent = `Score: ${score}`;
+      return;
+    }
+
+    if (directionChanged) return;
+
+    switch (key) {
+      case "w":
+        if (direction.y === 0) {
+          direction = { x: 0, y: -1 };
+          directionChanged = true;
+        }
+        break;
+      case "s":
+        if (direction.y === 0) {
+          direction = { x: 0, y: 1 };
+          directionChanged = true;
+        }
+        break;
+      case "a":
+        if (direction.x === 0) {
+          direction = { x: -1, y: 0 };
+          directionChanged = true;
+        }
+        break;
+      case "d":
+        if (direction.x === 0) {
+          direction = { x: 1, y: 0 };
+          directionChanged = true;
+        }
+        break;
+    }
+  });
+
+  function gameLoop() {
+    if (gameStarted) {
+      moveSnake();
+    }
+    draw();
+    directionChanged = false;
+    setTimeout(gameLoop, 100);
+  }
+
+  gameLoop();
+</script>

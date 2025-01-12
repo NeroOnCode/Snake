@@ -1,0 +1,17 @@
+---
+const { title, subtitle, text } = Astro.props;
+---
+
+<div class="w-1/5 ml-40 mt-20">
+  <h2 class="text-2xl">{title}</h2>
+  <br>
+  <h3 class="underline decoration-solid">{subtitle}</h3>
+  <br />
+  <p class="text-lg whitespace-pre-line">{text}</p>
+</div>
+
+<style>
+  p {
+    font-family: "Chakra Petch", serif;
+  }
+</style>
